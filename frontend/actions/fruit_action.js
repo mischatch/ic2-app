@@ -7,9 +7,18 @@ export const receiveAllFruit = fruit => ({
   fruit
 });
 
+// export const receiveOneFruit = oneFruit => ({
+//   type: RECEIVE_ONE_FRUIT,
+//   oneFruit
+// });
+// export const returnOneFruit = oneFruit => ({
+//   type: RECEIVE_ONE_FRUIT,
+//   oneFruit
+// });
+
 
 
 export const requestAllFruit = fruit => dispatch => {
   return FruitAPIUtil.fetchAllFruit()
     .then(allFruit => dispatch(receiveAllFruit(allFruit)));
-}
+};
