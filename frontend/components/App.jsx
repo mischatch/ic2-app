@@ -1,5 +1,5 @@
 import React from 'react';
-import FruitStoreContainer from './fruit_store/fruit_store_container'
+import FruitStoreContainer from './fruit_store/fruit_store_container';
 
 const App = () => {
   return (
