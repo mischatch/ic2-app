@@ -4979,6 +4979,10 @@ var _fruit_action = __webpack_require__(29);
 
 var _fruit_action2 = _interopRequireDefault(_fruit_action);
 
+var _cart_api_util = __webpack_require__(249);
+
+var _cart_api_util2 = _interopRequireDefault(_cart_api_util);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -4991,6 +4995,7 @@ document.addEventListener('DOMContentLoaded', function () {
   window.getState = store.getState;
   window.fetchAllFruit = _fruit_api_util2.default;
   window.requestAllFruit = _fruit_action2.default;
+  window.fetchFruit = _cart_api_util2.default;
   // window.dispatch = store.dispatch;
 
   var root = document.getElementById('root');
@@ -22919,14 +22924,16 @@ var _fruit_reducer = __webpack_require__(117);
 
 var _fruit_reducer2 = _interopRequireDefault(_fruit_reducer);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _cart_reducer = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./cart_reducer.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
-// import cartReducer from './cart_reducer.js';
+var _cart_reducer2 = _interopRequireDefault(_cart_reducer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RootReducer = (0, _redux.combineReducers)({
 
-  allFruit: _fruit_reducer2.default
-  // cart: cartReducer,
+  allFruit: _fruit_reducer2.default,
+  cart: _cart_reducer2.default
 });
 
 exports.default = RootReducer;
@@ -30565,6 +30572,38 @@ var FruitStore = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = FruitStore;
+
+/***/ }),
+/* 247 */,
+/* 248 */,
+/* 249 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.purchase = exports.returnAllFruit = exports.deleteFruit = exports.fetchFruit = undefined;
+
+var _axios = __webpack_require__(118);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var fetchFruit = exports.fetchFruit = function fetchFruit(fruit) {
+  return _axios2.default.get('http://localhost:8000/assets/store_items.json').then(function (res) {
+    debugger;
+  });
+};
+
+var deleteFruit = exports.deleteFruit = function deleteFruit(fruit) {};
+
+var returnAllFruit = exports.returnAllFruit = function returnAllFruit(cart) {};
+
+var purchase = exports.purchase = function purchase(cart) {};
 
 /***/ })
 /******/ ]);
