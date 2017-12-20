@@ -61,3 +61,7 @@ a:active {
 a:hover {
 	text-decoration: none;
 }
+
+button:focus, input:focus {
+    outline: none;
+}

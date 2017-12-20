@@ -1,6 +1,4 @@
 import React from 'react';
-import ImageLoader from 'react-load-image';
-import spinner from '../../../assets/spinner.gif';
 
 
 class FruitStoreItem extends React.Component{
@@ -8,25 +6,20 @@ class FruitStoreItem extends React.Component{
     super(props);
   }
 
-  Preloader(props) {
-    return <img src={spinner} alt='spinner' />;
-  }
 
   render(){
-    const { name, img, price, qnt} = this.props;
+    const { name, img, price, qnt } = this.props;
     return (
       <div className="store-item">
-        <ImageLoader
-          src={img}
-          >
-          <img  />
-            <div>Error!</div>
-          {this.Preloader()}
-        </ImageLoader>
+
+        <img src={img} />
+
         <p className="name">{name.charAt(0).toUpperCase() + name.slice(1)}</p>
-      <br/>
-        {Math.round(price)}
-        {qnt} in stock
+        <br/>
+        <span className="price">${Math.round(price)}</span>
+        <span className="quantity">{qnt} in Stock</span>
+
+        <button className="add">Add to Cart</button>
       </div>
     )
   }
