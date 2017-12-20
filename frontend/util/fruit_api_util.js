@@ -1,15 +1,6 @@
-import * as fetch from 'whatwg-fetch';
-// import { fetch } from 'whatwg-fetch';
-
-
-
-// export const fetchAllFruit = () => {
-//   debugger
-//   return(
-//   fetch('../../assets/store_items.json')
-//     .then((res) => console.log(res));
-// };
+import axios from 'axios';
 
 export const fetchAllFruit = () => {
-  console.log('Hey ya');
+  return axios.get('http://localhost:8000/assets/store_items.json');
+    // .then((res) => console.log(res));
 };

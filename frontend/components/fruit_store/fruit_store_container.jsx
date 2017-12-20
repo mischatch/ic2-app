@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import FruitStore from './fruit_store';
-import requestAllFruit from '../../actions/fruit_action';
+import FruitStore from './fruit_store.jsx';
+import { requestAllFruit } from '../../actions/fruit_action.js';
 
 const mapStateToProps = state => {
   return {
@@ -9,7 +9,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  debugger
   return {
     requestAllFruit: () => dispatch(requestAllFruit()),
   };
