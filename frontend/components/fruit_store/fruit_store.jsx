@@ -1,6 +1,6 @@
 import React from 'react';
 import FruitStoreContainer from './fruit_store_container';
-import FruitStoreItem from '../fruit_item/fruit_store_item';
+import FruitStoreItemContainer from '../fruit_item/fruit_store_item_container';
 
 class FruitStore extends React.Component{
   constructor(props){
@@ -13,15 +13,15 @@ class FruitStore extends React.Component{
 
   render(){
     const { allFruit } = this.props;
-
     return (
       <div className="store">
-        { allFruit.map((fruit, i) => <FruitStoreItem
-                                key={i}
-                                name={fruit.itemName}
-                                img={fruit.imgSrc}
-                                price={fruit.price}
-                                qnt={fruit.quantityRemaining}
+        { Object.keys(allFruit).map((id) => <FruitStoreItemContainer
+                                key={id}
+                                id={id}
+                                name={allFruit[id].itemName}
+                                img={allFruit[id].imgSrc}
+                                price={allFruit[id].price}
+                                qnt={allFruit[id].quantityRemaining}
                                 />)}
       </div>
     )

@@ -4979,10 +4979,6 @@ var _fruit_action = __webpack_require__(29);
 
 var _fruit_action2 = _interopRequireDefault(_fruit_action);
 
-var _cart_api_util = __webpack_require__(249);
-
-var _cart_api_util2 = _interopRequireDefault(_cart_api_util);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -4993,9 +4989,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   window.store = store;
   window.getState = store.getState;
-  window.fetchAllFruit = _fruit_api_util2.default;
-  window.requestAllFruit = _fruit_action2.default;
-  window.fetchFruit = _cart_api_util2.default;
+
   // window.dispatch = store.dispatch;
 
   var root = document.getElementById('root');
@@ -22924,7 +22918,7 @@ var _fruit_reducer = __webpack_require__(117);
 
 var _fruit_reducer2 = _interopRequireDefault(_fruit_reducer);
 
-var _cart_reducer = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./cart_reducer.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+var _cart_reducer = __webpack_require__(250);
 
 var _cart_reducer2 = _interopRequireDefault(_cart_reducer);
 
@@ -22958,14 +22952,19 @@ var _merge2 = _interopRequireDefault(_merge);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var fruitReducer = function fruitReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments[1];
 
   Object.freeze(state);
   var newState = void 0;
   switch (action.type) {
     case _fruit_action.RECEIVE_ALL_FRUIT:
-      return action.data;
+      newState = (0, _merge2.default)({}, state);
+
+      for (var i = 0; i < action.data.length; i++) {
+        newState[i] = action.data[i];
+      }
+      return newState;
     case _fruit_action.RECEIVE_ONE_FRUIT:
       return state;
     default:
@@ -30349,9 +30348,9 @@ var _fruit_store_container = __webpack_require__(86);
 
 var _fruit_store_container2 = _interopRequireDefault(_fruit_store_container);
 
-var _fruit_store_item = __webpack_require__(244);
+var _fruit_store_item_container = __webpack_require__(251);
 
-var _fruit_store_item2 = _interopRequireDefault(_fruit_store_item);
+var _fruit_store_item_container2 = _interopRequireDefault(_fruit_store_item_container);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30380,17 +30379,17 @@ var FruitStore = function (_React$Component) {
     value: function render() {
       var allFruit = this.props.allFruit;
 
-
       return _react2.default.createElement(
         'div',
         { className: 'store' },
-        allFruit.map(function (fruit, i) {
-          return _react2.default.createElement(_fruit_store_item2.default, {
-            key: i,
-            name: fruit.itemName,
-            img: fruit.imgSrc,
-            price: fruit.price,
-            qnt: fruit.quantityRemaining
+        Object.keys(allFruit).map(function (id) {
+          return _react2.default.createElement(_fruit_store_item_container2.default, {
+            key: id,
+            id: id,
+            name: allFruit[id].itemName,
+            img: allFruit[id].imgSrc,
+            price: allFruit[id].price,
+            qnt: allFruit[id].quantityRemaining
           });
         })
       );
@@ -30433,13 +30432,25 @@ var FruitStoreItem = function (_React$Component) {
   function FruitStoreItem(props) {
     _classCallCheck(this, FruitStoreItem);
 
-    return _possibleConstructorReturn(this, (FruitStoreItem.__proto__ || Object.getPrototypeOf(FruitStoreItem)).call(this, props));
+    // debugger
+    var _this = _possibleConstructorReturn(this, (FruitStoreItem.__proto__ || Object.getPrototypeOf(FruitStoreItem)).call(this, props));
+
+    _this.handleAdd = _this.handleAdd.bind(_this);
+
+    return _this;
   }
 
   _createClass(FruitStoreItem, [{
+    key: "handleAdd",
+    value: function handleAdd(e) {
+      debugger;
+      this.props.addFruit(this.props.allFruit[e.target.value]);
+    }
+  }, {
     key: "render",
     value: function render() {
       var _props = this.props,
+          id = _props.id,
           name = _props.name,
           img = _props.img,
           price = _props.price,
@@ -30469,7 +30480,7 @@ var FruitStoreItem = function (_React$Component) {
         ),
         _react2.default.createElement(
           "button",
-          { className: "add" },
+          { onClick: this.handleAdd, value: id, className: "add" },
           "Add to Cart"
         )
       );
@@ -30576,7 +30587,8 @@ exports.default = FruitStore;
 /***/ }),
 /* 247 */,
 /* 248 */,
-/* 249 */
+/* 249 */,
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30585,25 +30597,118 @@ exports.default = FruitStore;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.purchase = exports.returnAllFruit = exports.deleteFruit = exports.fetchFruit = undefined;
 
-var _axios = __webpack_require__(118);
+var _cart_action = __webpack_require__(252);
 
-var _axios2 = _interopRequireDefault(_axios);
+var _merge = __webpack_require__(137);
+
+var _merge2 = _interopRequireDefault(_merge);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var fetchFruit = exports.fetchFruit = function fetchFruit(fruit) {
-  return _axios2.default.get('http://localhost:8000/assets/store_items.json').then(function (res) {
-    debugger;
-  });
+var cartReducer = function cartReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments[1];
+
+  Object.freeze(state);
+  var newState = void 0;
+  switch (action.type) {
+    case _cart_action.ADD_FRUIT:
+      newState = (0, _merge2.default)({}, state);
+      if (newState === undefined) {
+        newState[0] = action.fruit;
+      } else {
+        newState[Object.keys(newState).length] = action.fruit;
+      }
+
+      return newState;
+    default:
+      return state;
+  }
 };
 
-var deleteFruit = exports.deleteFruit = function deleteFruit(fruit) {};
+exports.default = cartReducer;
 
-var returnAllFruit = exports.returnAllFruit = function returnAllFruit(cart) {};
+/***/ }),
+/* 251 */
+/***/ (function(module, exports, __webpack_require__) {
 
-var purchase = exports.purchase = function purchase(cart) {};
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _reactRedux = __webpack_require__(35);
+
+var _fruit_store_item = __webpack_require__(244);
+
+var _fruit_store_item2 = _interopRequireDefault(_fruit_store_item);
+
+var _cart_action = __webpack_require__(252);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    allFruit: state.allFruit
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    addFruit: function addFruit(fruit) {
+      return dispatch((0, _cart_action.addFruit)(fruit));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_fruit_store_item2.default);
+
+/***/ }),
+/* 252 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var ADD_FRUIT = exports.ADD_FRUIT = 'ADD_FRUIT';
+var REMOVE_FRUIT = exports.REMOVE_FRUIT = 'REMOVE_FRUIT';
+var REMOVE_ALL = exports.REMOVE_ALL = 'REMOVE_ALL';
+var CONFIRM = exports.CONFIRM = 'CONFIRM';
+
+var addFruit = exports.addFruit = function addFruit(fruit) {
+  debugger;
+  return {
+    type: ADD_FRUIT,
+    fruit: fruit
+  };
+};
+
+var removeFruit = exports.removeFruit = function removeFruit(fruit) {
+  return {
+    type: REMOVE_FRUIT,
+    fruit: fruit
+  };
+};
+
+var removeAll = exports.removeAll = function removeAll(cart) {
+  return {
+    type: REMOVE_ALL,
+    cart: cart
+  };
+};
+
+var confirm = exports.confirm = function confirm(cart) {
+  return {
+    type: CONFIRM,
+    fruit: fruit
+  };
+};
 
 /***/ })
 /******/ ]);

@@ -4,11 +4,19 @@ import React from 'react';
 class FruitStoreItem extends React.Component{
   constructor(props){
     super(props);
+    // debugger
+    this.handleAdd = this.handleAdd.bind(this);
+
+  }
+
+  handleAdd(e){
+    debugger
+    this.props.addFruit(this.props.allFruit[e.target.value]);
   }
 
 
   render(){
-    const { name, img, price, qnt } = this.props;
+    const { id, name, img, price, qnt } = this.props;
     return (
       <div className="store-item">
 
@@ -19,7 +27,7 @@ class FruitStoreItem extends React.Component{
         <span className="price">${Math.round(price)}</span>
         <span className="quantity">{qnt} in Stock</span>
 
-        <button className="add">Add to Cart</button>
+        <button onClick={this.handleAdd} value={id} className="add">Add to Cart</button>
       </div>
     )
   }
