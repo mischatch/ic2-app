@@ -3222,7 +3222,7 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var fetchAllFruit = exports.fetchAllFruit = function fetchAllFruit() {
-  return _axios2.default.get('http://localhost:8000/assets/store_items.json');
+  return _axios2.default.get('http://localhost:8080/assets/store_items.json');
   // .then((res) => console.log(res));
 };
 
@@ -26088,14 +26088,12 @@ var cartReducer = function cartReducer() {
   var newState = void 0;
   switch (action.type) {
     case _cart_action.ADD_FRUIT:
-      debugger;
       newState = (0, _merge2.default)({}, state);
       if (Object.keys(newState).length === 0) {
         action.fruit.qty = 1;
         newState[0] = action.fruit;
       } else {
         Object.keys(newState).forEach(function (itemNum) {
-          debugger;
           if (newState[itemNum].itemName === action.fruit.itemName) {
             newState[itemNum].qty += 1;
             return newState;
@@ -30676,6 +30674,10 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _cart_item = __webpack_require__(250);
+
+var _cart_item2 = _interopRequireDefault(_cart_item);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30684,7 +30686,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// import FruitStoreContainer from './fruit_store_container';
 // import FruitStoreItem from '../fruit_item/fruit_store_item';
 
 var FruitStore = function (_React$Component) {
@@ -30693,23 +30694,62 @@ var FruitStore = function (_React$Component) {
   function FruitStore(props) {
     _classCallCheck(this, FruitStore);
 
-    return _possibleConstructorReturn(this, (FruitStore.__proto__ || Object.getPrototypeOf(FruitStore)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (FruitStore.__proto__ || Object.getPrototypeOf(FruitStore)).call(this, props));
+
+    _this.showCart = _this.showCart.bind(_this);
+    return _this;
   }
 
   _createClass(FruitStore, [{
-    key: "render",
+    key: 'showCart',
+    value: function showCart() {
+
+      var cart = this.props.cart;
+      debugger;
+      if (Object.keys(cart).length === 0) {
+        return _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'h3',
+            null,
+            'Cart is empty'
+          )
+        );
+      } else {
+        debugger;
+        return _react2.default.createElement(
+          'div',
+          null,
+          Object.keys(cart).map(function (id) {
+            return _react2.default.createElement(_cart_item2.default, {
+              key: id,
+              id: id,
+              name: cart[id].itemName,
+              img: cart[id].imgSrc,
+              price: cart[id].price,
+              qntRemain: cart[id].quantityRemaining,
+              qnt: cart[id].qty
+            });
+          })
+        );
+      }
+    }
+  }, {
+    key: 'render',
     value: function render() {
       // const { allFruit } = this.props;
 
       debugger;
       return _react2.default.createElement(
-        "div",
-        { className: "cart" },
+        'div',
+        { className: 'cart' },
         _react2.default.createElement(
-          "h1",
+          'h1',
           null,
-          "Shopping Cart"
-        )
+          'Shopping Cart'
+        ),
+        this.showCart()
       );
     }
   }]);
@@ -30718,6 +30758,53 @@ var FruitStore = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = FruitStore;
+
+/***/ }),
+/* 250 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CartItem = function (_React$Component) {
+  _inherits(CartItem, _React$Component);
+
+  function CartItem() {
+    _classCallCheck(this, CartItem);
+
+    return _possibleConstructorReturn(this, (CartItem.__proto__ || Object.getPrototypeOf(CartItem)).apply(this, arguments));
+  }
+
+  _createClass(CartItem, [{
+    key: 'render',
+    value: function render() {
+      debugger;
+      return _react2.default.createElement('div', null);
+    }
+  }]);
+
+  return CartItem;
+}(_react2.default.Component);
+
+exports.default = CartItem;
 
 /***/ })
 /******/ ]);
