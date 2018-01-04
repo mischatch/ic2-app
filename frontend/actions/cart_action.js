@@ -6,7 +6,6 @@ export const REMOVE_ALL = 'REMOVE_ALL';
 export const CONFIRM = 'CONFIRM';
 
 export const addFruit = (fruit) => {
-  debugger
   return {
     type: ADD_FRUIT,
     fruit,

@@ -10,8 +10,9 @@ const cartReducer = (state = {}, action) => {
   let newState;
   switch(action.type){
     case ADD_FRUIT:
+    debugger
       newState = merge({}, state);
-      if(newState === undefined){
+      if(Object.keys(newState).length === 0){
         newState[0] = action.fruit;
       } else {
         newState[Object.keys(newState).length] = action.fruit;

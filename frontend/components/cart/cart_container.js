@@ -4,6 +4,7 @@ import Cart from './cart.jsx';
 const mapStateToProps = state => {
   return {
     allFruit: state.allFruit,
+    cart: state.cart,
   };
 };
 

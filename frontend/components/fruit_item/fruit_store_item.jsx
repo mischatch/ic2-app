@@ -4,13 +4,11 @@ import React from 'react';
 class FruitStoreItem extends React.Component{
   constructor(props){
     super(props);
-    // debugger
     this.handleAdd = this.handleAdd.bind(this);
 
   }
 
   handleAdd(e){
-    debugger
     this.props.addFruit(this.props.allFruit[e.target.value]);
   }
 
