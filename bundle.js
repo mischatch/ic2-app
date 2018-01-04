@@ -26091,9 +26091,20 @@ var cartReducer = function cartReducer() {
       debugger;
       newState = (0, _merge2.default)({}, state);
       if (Object.keys(newState).length === 0) {
+        action.fruit.qty = 1;
         newState[0] = action.fruit;
       } else {
-        newState[Object.keys(newState).length] = action.fruit;
+        Object.keys(newState).forEach(function (itemNum) {
+          debugger;
+          if (newState[itemNum].itemName === action.fruit.itemName) {
+            newState[itemNum].qty += 1;
+            return newState;
+          } else {
+            action.fruit.qty = 1;
+            newState[Object.keys(newState).length] = action.fruit;
+          }
+        });
+        // newState[Object.keys(newState).length] = action.fruit;
       }
 
       return newState;
@@ -30465,6 +30476,7 @@ var FruitStore = function (_React$Component) {
     value: function render() {
       var allFruit = this.props.allFruit;
 
+      debugger;
       return _react2.default.createElement(
         'div',
         { className: 'store' },
@@ -30689,6 +30701,7 @@ var FruitStore = function (_React$Component) {
     value: function render() {
       // const { allFruit } = this.props;
 
+      debugger;
       return _react2.default.createElement(
         "div",
         { className: "cart" },

@@ -12,6 +12,7 @@ class FruitStore extends React.Component{
   render(){
     // const { allFruit } = this.props;
 
+    debugger
     return (
       <div className="cart">
         <h1>Shopping Cart</h1>

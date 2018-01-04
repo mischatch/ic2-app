@@ -13,6 +13,7 @@ class FruitStore extends React.Component{
 
   render(){
     const { allFruit } = this.props;
+    debugger
     return (
       <div className="store">
         { Object.keys(allFruit).map((id) => <FruitStoreItemContainer
