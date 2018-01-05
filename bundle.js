@@ -30796,8 +30796,31 @@ var CartItem = function (_React$Component) {
   _createClass(CartItem, [{
     key: 'render',
     value: function render() {
+      var _props = this.props,
+          name = _props.name,
+          qnt = _props.qnt,
+          img = _props.img,
+          price = _props.price;
+
       debugger;
-      return _react2.default.createElement('div', null);
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement('img', { src: img }),
+        _react2.default.createElement(
+          'p',
+          null,
+          qnt
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          '@ $',
+          Math.round(price),
+          ' each = ',
+          qnt * Math.round(price)
+        )
+      );
     }
   }]);
 
