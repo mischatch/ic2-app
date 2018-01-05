@@ -3222,7 +3222,7 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var fetchAllFruit = exports.fetchAllFruit = function fetchAllFruit() {
-  return _axios2.default.get('http://localhost:8080/assets/store_items.json');
+  return _axios2.default.get('http://localhost:8000/assets/store_items.json');
   // .then((res) => console.log(res));
 };
 
@@ -30749,6 +30749,8 @@ var FruitStore = function (_React$Component) {
           null,
           'Shopping Cart'
         ),
+        Object.keys(this.props.cart).length,
+        ' items',
         this.showCart()
       );
     }
@@ -30794,7 +30796,7 @@ var CartItem = function (_React$Component) {
   }
 
   _createClass(CartItem, [{
-    key: 'render',
+    key: "render",
     value: function render() {
       var _props = this.props,
           name = _props.name,
@@ -30804,20 +30806,34 @@ var CartItem = function (_React$Component) {
 
       debugger;
       return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement('img', { src: img }),
+        "div",
+        { className: "cart_item" },
         _react2.default.createElement(
-          'p',
-          null,
-          qnt
+          "div",
+          { className: "line_1" },
+          _react2.default.createElement("img", { src: img }),
+          _react2.default.createElement(
+            "span",
+            null,
+            "-"
+          ),
+          _react2.default.createElement(
+            "p",
+            null,
+            qnt
+          ),
+          _react2.default.createElement(
+            "span",
+            null,
+            "+"
+          )
         ),
         _react2.default.createElement(
-          'p',
+          "p",
           null,
-          '@ $',
+          "@ $",
           Math.round(price),
-          ' each = ',
+          " each = $",
           qnt * Math.round(price)
         )
       );

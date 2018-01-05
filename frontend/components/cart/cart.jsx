@@ -45,6 +45,7 @@ class FruitStore extends React.Component{
     return (
       <div className="cart">
         <h1>Shopping Cart</h1>
+          {Object.keys(this.props.cart).length} items
           { this.showCart() }
       </div>
     )
