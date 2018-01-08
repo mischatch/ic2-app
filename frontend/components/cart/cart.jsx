@@ -23,6 +23,7 @@ class FruitStore extends React.Component{
       debugger
       return (
         <div>
+        <div>
         {Object.keys(cart).map(id => <CartItem
                                         key={id}
                                         id={id}
@@ -33,8 +34,13 @@ class FruitStore extends React.Component{
                                         qty={cart[id].qty}
                                         removeOneFruit={this.props.removeOneFruit}
                                         addFruit={this.props.addFruit}
+                                        removeItem={this.props.removeItem}
                                         />)}
         </div>
+        <div className="total">
+          Total
+        </div>
+      </div>
       )
     }
   }

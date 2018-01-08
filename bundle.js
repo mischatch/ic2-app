@@ -3952,7 +3952,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var ADD_FRUIT = exports.ADD_FRUIT = 'ADD_FRUIT';
-var REMOVE_FRUIT = exports.REMOVE_FRUIT = 'REMOVE_FRUIT';
+var REMOVE_ITEM = exports.REMOVE_ITEM = 'REMOVE_FRUIT';
 var REMOVE_ALL = exports.REMOVE_ALL = 'REMOVE_ALL';
 var CONFIRM = exports.CONFIRM = 'CONFIRM';
 var REMOVE_ONE_FRUIT = exports.REMOVE_ONE_FRUIT = 'REMOVE_ONE_FRUIT';
@@ -3972,10 +3972,10 @@ var removeOneFruit = exports.removeOneFruit = function removeOneFruit(idx) {
   };
 };
 
-var removeFruit = exports.removeFruit = function removeFruit(fruit) {
+var removeItem = exports.removeItem = function removeItem(idx) {
   return {
-    type: REMOVE_FRUIT,
-    fruit: fruit
+    type: REMOVE_ITEM,
+    idx: idx
   };
 };
 
@@ -26116,6 +26116,10 @@ var cartReducer = function cartReducer() {
         delete newState[idx];
       }
       return newState;
+    case _cart_action.REMOVE_ITEM:
+      newState = (0, _merge2.default)({}, state);
+      delete newState[idx];
+      return newState;
     default:
       return state;
   }
@@ -30669,6 +30673,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     addFruit: function addFruit(fruit, idx) {
       return dispatch((0, _cart_action.addFruit)(fruit, idx));
+    },
+    removeItem: function removeItem(idx) {
+      return dispatch((0, _cart_action.removeItem)(idx));
     }
   };
 };
@@ -30740,19 +30747,29 @@ var FruitStore = function (_React$Component) {
         return _react2.default.createElement(
           'div',
           null,
-          Object.keys(cart).map(function (id) {
-            return _react2.default.createElement(_cart_item2.default, {
-              key: id,
-              id: id,
-              name: cart[id].itemName,
-              img: cart[id].imgSrc,
-              price: cart[id].price,
-              qntRemain: cart[id].quantityRemaining,
-              qty: cart[id].qty,
-              removeOneFruit: _this2.props.removeOneFruit,
-              addFruit: _this2.props.addFruit
-            });
-          })
+          _react2.default.createElement(
+            'div',
+            null,
+            Object.keys(cart).map(function (id) {
+              return _react2.default.createElement(_cart_item2.default, {
+                key: id,
+                id: id,
+                name: cart[id].itemName,
+                img: cart[id].imgSrc,
+                price: cart[id].price,
+                qntRemain: cart[id].quantityRemaining,
+                qty: cart[id].qty,
+                removeOneFruit: _this2.props.removeOneFruit,
+                addFruit: _this2.props.addFruit,
+                removeItem: _this2.props.removeItem
+              });
+            })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'total' },
+            'Total'
+          )
         );
       }
     }
@@ -30822,6 +30839,7 @@ var CartItem = function (_React$Component) {
 
     _this.handleRemove = _this.handleRemove.bind(_this);
     _this.handleAdd = _this.handleAdd.bind(_this);
+    _this.handleRemoveItem = _this.handleRemoveItem.bind(_this);
     return _this;
   }
 
@@ -30836,6 +30854,11 @@ var CartItem = function (_React$Component) {
     value: function handleAdd() {
       debugger;
       this.props.addFruit({}, this.props.id);
+    }
+  }, {
+    key: "handleRemoveItem",
+    value: function handleRemoveItem() {
+      this.props.removeItem(this.props.id);
     }
   }, {
     key: "render",
@@ -30872,12 +30895,21 @@ var CartItem = function (_React$Component) {
           )
         ),
         _react2.default.createElement(
-          "p",
-          null,
-          "@ $",
-          Math.round(price),
-          " each = $",
-          qty * Math.round(price)
+          "div",
+          { className: "line_2" },
+          _react2.default.createElement(
+            "p",
+            null,
+            "@ $",
+            Math.round(price),
+            " each = $",
+            qty * Math.round(price)
+          ),
+          _react2.default.createElement(
+            "p",
+            { onClick: this.handleRemoveItem },
+            "Delete"
+          )
         )
       );
     }

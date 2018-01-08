@@ -130,7 +130,7 @@ button.add:hover {
 
 .line_1 > span {
   background-color: white;
-  padding: 0px 10px 0px 10px;
+  padding: 0px 8px 0px 8px;
   font-weight: 400;
   cursor: pointer;
 }
@@ -144,6 +144,27 @@ button.add:hover {
   margin-top: 10px;
 }
 
-.cart_item > p {
-  margin: 0px 0px 10px 20px;
+.line_2 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart_item > .line_2 > p {
+  margin: 0px 20px 10px 20px;
+}
+.cart_item > .line_2 > p:nth-child(2n+0){
+  color: white;
+}
+
+.total::before {
+  content: '';
+  float: right;
+  width: 90%;
+  height: 2px;
+  background-color: white;
+  margin: 20px 0px 20px 0px;
+}
+.total {
+
 }

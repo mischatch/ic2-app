@@ -1,5 +1,5 @@
 import { ADD_FRUIT,
-        REMOVE_FRUIT,
+        REMOVE_ITEM,
         REMOVE_ALL,
         CONFIRM,
         REMOVE_ONE_FRUIT } from '../actions/cart_action';
@@ -30,6 +30,10 @@ const cartReducer = (state = {}, action) => {
           delete newState[idx];
         }
         return newState;
+      case REMOVE_ITEM:
+      newState = merge({}, state);
+      delete newState[idx];
+      return newState;
     default:
     return state;
   }
