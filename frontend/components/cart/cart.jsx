@@ -30,8 +30,8 @@ class FruitStore extends React.Component{
                                         img={cart[id].imgSrc}
                                         price={cart[id].price}
                                         qntRemain={cart[id].quantityRemaining}
-                                        qnt={cart[id].qty}
-                                        updateCart={this.updateCart}
+                                        qty={cart[id].qty}
+                                        removeOneFruit={this.props.removeOneFruit}
                                         />)}
         </div>
       )

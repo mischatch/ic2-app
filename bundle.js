@@ -3955,11 +3955,19 @@ var ADD_FRUIT = exports.ADD_FRUIT = 'ADD_FRUIT';
 var REMOVE_FRUIT = exports.REMOVE_FRUIT = 'REMOVE_FRUIT';
 var REMOVE_ALL = exports.REMOVE_ALL = 'REMOVE_ALL';
 var CONFIRM = exports.CONFIRM = 'CONFIRM';
+var REMOVE_ONE_FRUIT = exports.REMOVE_ONE_FRUIT = 'REMOVE_ONE_FRUIT';
 
 var addFruit = exports.addFruit = function addFruit(fruit, idx) {
   return {
     type: ADD_FRUIT,
     fruit: fruit,
+    idx: idx
+  };
+};
+
+var removeOneFruit = exports.removeOneFruit = function removeOneFruit(idx) {
+  return {
+    type: REMOVE_ONE_FRUIT,
     idx: idx
   };
 };
@@ -26087,17 +26095,26 @@ var cartReducer = function cartReducer() {
 
   Object.freeze(state);
   var newState = void 0;
+  var idx = action.idx;
   switch (action.type) {
     case _cart_action.ADD_FRUIT:
-      debugger;
+      // debugger
       newState = (0, _merge2.default)({}, state);
-      if (newState === {} || newState[action.idx] === undefined) {
+      if (newState === {} || newState[idx] === undefined) {
         action.fruit.qty = 1;
-        newState[action.idx] = action.fruit;
-      } else if (newState[action.idx] !== undefined) {
-        newState[action.idx].qty += 1;
+        newState[idx] = action.fruit;
+      } else if (newState[idx] !== undefined) {
+        newState[idx].qty += 1;
       }
 
+      return newState;
+    case _cart_action.REMOVE_ONE_FRUIT:
+      debugger;
+      newState = (0, _merge2.default)({}, state);
+      newState[idx].qty -= 1;
+      if (newState[idx].qty === 0) {
+        delete newState[idx];
+      }
       return newState;
     default:
       return state;
@@ -30634,6 +30651,8 @@ var _cart = __webpack_require__(249);
 
 var _cart2 = _interopRequireDefault(_cart);
 
+var _cart_action = __webpack_require__(75);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -30645,7 +30664,9 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    // requestAllFruit: () => dispatch(requestAllFruit()),
+    removeOneFruit: function removeOneFruit(idx) {
+      return dispatch((0, _cart_action.removeOneFruit)(idx));
+    }
   };
 };
 
@@ -30724,8 +30745,8 @@ var FruitStore = function (_React$Component) {
               img: cart[id].imgSrc,
               price: cart[id].price,
               qntRemain: cart[id].quantityRemaining,
-              qnt: cart[id].qty,
-              updateCart: _this2.updateCart
+              qty: cart[id].qty,
+              removeOneFruit: _this2.props.removeOneFruit
             });
           })
         );
@@ -30790,20 +30811,30 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var CartItem = function (_React$Component) {
   _inherits(CartItem, _React$Component);
 
-  function CartItem() {
+  function CartItem(props) {
     _classCallCheck(this, CartItem);
 
-    return _possibleConstructorReturn(this, (CartItem.__proto__ || Object.getPrototypeOf(CartItem)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (CartItem.__proto__ || Object.getPrototypeOf(CartItem)).call(this, props));
+
+    _this.handleRemove = _this.handleRemove.bind(_this);
+    return _this;
   }
 
   _createClass(CartItem, [{
+    key: "handleRemove",
+    value: function handleRemove(e) {
+      debugger;
+      this.props.removeOneFruit(this.props.id);
+    }
+  }, {
     key: "render",
     value: function render() {
       var _props = this.props,
           name = _props.name,
-          qnt = _props.qnt,
+          qty = _props.qty,
           img = _props.img,
-          price = _props.price;
+          price = _props.price,
+          id = _props.id;
 
       debugger;
       return _react2.default.createElement(
@@ -30815,13 +30846,13 @@ var CartItem = function (_React$Component) {
           _react2.default.createElement("img", { src: img }),
           _react2.default.createElement(
             "span",
-            { onClick: this.updateCart },
+            { onClick: this.handleRemove, value: id },
             "-"
           ),
           _react2.default.createElement(
             "p",
             null,
-            qnt
+            qty
           ),
           _react2.default.createElement(
             "span",
@@ -30835,7 +30866,7 @@ var CartItem = function (_React$Component) {
           "@ $",
           Math.round(price),
           " each = $",
-          qnt * Math.round(price)
+          qty * Math.round(price)
         )
       );
     }

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import Cart from './cart.jsx';
+import { removeOneFruit } from '../../actions/cart_action';
 
 const mapStateToProps = state => {
   return {
@@ -10,7 +11,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // requestAllFruit: () => dispatch(requestAllFruit()),
+    removeOneFruit: idx => dispatch(removeOneFruit(idx)),
   };
 };
 
