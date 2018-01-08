@@ -30722,10 +30722,20 @@ var FruitStore = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (FruitStore.__proto__ || Object.getPrototypeOf(FruitStore)).call(this, props));
 
     _this.showCart = _this.showCart.bind(_this);
+    _this.countTotal = _this.countTotal.bind(_this);
     return _this;
   }
 
   _createClass(FruitStore, [{
+    key: 'countTotal',
+    value: function countTotal() {
+      var total = 0;
+      for (var key in this.props.cart) {
+        total += Math.round(this.props.cart[key].price) * this.props.cart[key].qty;
+      }
+      return total;
+    }
+  }, {
     key: 'showCart',
     value: function showCart() {
       var _this2 = this;
@@ -30768,7 +30778,13 @@ var FruitStore = function (_React$Component) {
           _react2.default.createElement(
             'div',
             { className: 'total' },
-            'Total'
+            _react2.default.createElement(
+              'p',
+              null,
+              'Total: $',
+              this.countTotal(),
+              '.00'
+            )
           )
         );
       }

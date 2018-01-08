@@ -155,6 +155,7 @@ button.add:hover {
 }
 .cart_item > .line_2 > p:nth-child(2n+0){
   color: white;
+  cursor: pointer;
 }
 
 .total::before {
@@ -165,6 +166,7 @@ button.add:hover {
   background-color: white;
   margin: 20px 0px 20px 0px;
 }
-.total {
-
+.total > p {
+  float: right;
+  margin-right: 20px;
 }

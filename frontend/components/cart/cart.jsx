@@ -7,6 +7,16 @@ class FruitStore extends React.Component{
     super(props);
 
     this.showCart = this.showCart.bind(this);
+    this.countTotal = this.countTotal.bind(this);
+  }
+
+
+  countTotal(){
+    let total = 0;
+    for(let key in this.props.cart){
+      total += Math.round(this.props.cart[key].price) * this.props.cart[key].qty;
+    }
+    return total;
   }
 
   showCart(){
@@ -38,7 +48,7 @@ class FruitStore extends React.Component{
                                         />)}
         </div>
         <div className="total">
-          Total
+          <p>Total: ${this.countTotal()}.00</p>
         </div>
       </div>
       )
