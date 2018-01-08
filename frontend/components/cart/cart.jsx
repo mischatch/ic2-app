@@ -32,6 +32,7 @@ class FruitStore extends React.Component{
                                         qntRemain={cart[id].quantityRemaining}
                                         qty={cart[id].qty}
                                         removeOneFruit={this.props.removeOneFruit}
+                                        addFruit={this.props.addFruit}
                                         />)}
         </div>
       )

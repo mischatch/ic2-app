@@ -132,6 +132,7 @@ button.add:hover {
   background-color: white;
   padding: 0px 10px 0px 10px;
   font-weight: 400;
+  cursor: pointer;
 }
 
 .cart_item {

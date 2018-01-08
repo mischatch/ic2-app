@@ -5,11 +5,17 @@ class CartItem extends React.Component{
     super(props);
 
     this.handleRemove = this.handleRemove.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
   }
 
-  handleRemove(e){
+  handleRemove(){
     debugger
     this.props.removeOneFruit(this.props.id);
+  }
+
+  handleAdd(){
+    debugger
+    this.props.addFruit({}, this.props.id);
   }
 
   render(){
@@ -19,7 +25,7 @@ class CartItem extends React.Component{
       <div className="cart_item">
         <div className="line_1">
           <img src={img} />
-          <span onClick={this.handleRemove} value={id}>-</span><p>{qty}</p><span>+</span>
+          <span onClick={this.handleRemove} value={id}>-</span><p>{qty}</p><span onClick={this.handleAdd}>+</span>
         </div>
           <p>@ ${Math.round(price)} each = ${qty * Math.round(price)}</p>
       </div>

@@ -30666,6 +30666,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     removeOneFruit: function removeOneFruit(idx) {
       return dispatch((0, _cart_action.removeOneFruit)(idx));
+    },
+    addFruit: function addFruit(fruit, idx) {
+      return dispatch((0, _cart_action.addFruit)(fruit, idx));
     }
   };
 };
@@ -30746,7 +30749,8 @@ var FruitStore = function (_React$Component) {
               price: cart[id].price,
               qntRemain: cart[id].quantityRemaining,
               qty: cart[id].qty,
-              removeOneFruit: _this2.props.removeOneFruit
+              removeOneFruit: _this2.props.removeOneFruit,
+              addFruit: _this2.props.addFruit
             });
           })
         );
@@ -30817,14 +30821,21 @@ var CartItem = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (CartItem.__proto__ || Object.getPrototypeOf(CartItem)).call(this, props));
 
     _this.handleRemove = _this.handleRemove.bind(_this);
+    _this.handleAdd = _this.handleAdd.bind(_this);
     return _this;
   }
 
   _createClass(CartItem, [{
     key: "handleRemove",
-    value: function handleRemove(e) {
+    value: function handleRemove() {
       debugger;
       this.props.removeOneFruit(this.props.id);
+    }
+  }, {
+    key: "handleAdd",
+    value: function handleAdd() {
+      debugger;
+      this.props.addFruit({}, this.props.id);
     }
   }, {
     key: "render",
@@ -30856,7 +30867,7 @@ var CartItem = function (_React$Component) {
           ),
           _react2.default.createElement(
             "span",
-            null,
+            { onClick: this.handleAdd },
             "+"
           )
         ),
