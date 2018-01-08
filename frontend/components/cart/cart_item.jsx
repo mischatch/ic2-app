@@ -10,7 +10,7 @@ class CartItem extends React.Component{
       <div className="cart_item">
         <div className="line_1">
           <img src={img} />
-          <span>-</span><p>{qnt}</p><span>+</span>
+          <span onClick={this.updateCart}>-</span><p>{qnt}</p><span>+</span>
         </div>
           <p>@ ${Math.round(price)} each = ${qnt * Math.round(price)}</p>
       </div>

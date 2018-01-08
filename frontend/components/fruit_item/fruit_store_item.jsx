@@ -9,7 +9,8 @@ class FruitStoreItem extends React.Component{
   }
 
   handleAdd(e){
-    this.props.addFruit(this.props.allFruit[e.target.value]);
+    debugger
+    this.props.addFruit(this.props.allFruit[e.target.value], e.target.value);
   }
 
 

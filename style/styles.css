@@ -46,7 +46,7 @@ body {
 }
 
 .cart {
-  width: 300px;
+  width: 400px;
   box-sizing: content-box;
   float: right;
   margin-right: 40px;
@@ -57,6 +57,11 @@ body {
   padding-top: 10px;
   font-weight: 600;
   margin-left: -20px;
+}
+
+.items {
+  margin: 6px;
+  font-weight: 400;
 }
 
 .store-item {
@@ -106,8 +111,8 @@ button.add:hover {
 }
 
 .cart_item > .line_1 > img {
-  max-width: 50px;
-  height: 40px;
+  max-width: 60px;
+  height: 50px;
   margin-right: 20px;
 }
 
@@ -119,6 +124,14 @@ button.add:hover {
 
 .line_1 > p {
   margin: 0 10px 0 10px;
+  font-weight: 400;
+  font-size: 23px;
+}
+
+.line_1 > span {
+  background-color: white;
+  padding: 0px 10px 0px 10px;
+  font-weight: 400;
 }
 
 .cart_item {
@@ -127,7 +140,7 @@ button.add:hover {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .cart_item > p {

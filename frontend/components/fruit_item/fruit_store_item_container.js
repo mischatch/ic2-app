@@ -10,7 +10,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addFruit: (fruit) => dispatch(addFruit(fruit)),
+    addFruit: (fruit, idx) => dispatch(addFruit(fruit, idx)),
   };
 };
 

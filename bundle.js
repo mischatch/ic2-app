@@ -3956,10 +3956,11 @@ var REMOVE_FRUIT = exports.REMOVE_FRUIT = 'REMOVE_FRUIT';
 var REMOVE_ALL = exports.REMOVE_ALL = 'REMOVE_ALL';
 var CONFIRM = exports.CONFIRM = 'CONFIRM';
 
-var addFruit = exports.addFruit = function addFruit(fruit) {
+var addFruit = exports.addFruit = function addFruit(fruit, idx) {
   return {
     type: ADD_FRUIT,
-    fruit: fruit
+    fruit: fruit,
+    idx: idx
   };
 };
 
@@ -26088,21 +26089,13 @@ var cartReducer = function cartReducer() {
   var newState = void 0;
   switch (action.type) {
     case _cart_action.ADD_FRUIT:
+      debugger;
       newState = (0, _merge2.default)({}, state);
-      if (Object.keys(newState).length === 0) {
+      if (newState === {} || newState[action.idx] === undefined) {
         action.fruit.qty = 1;
-        newState[0] = action.fruit;
-      } else {
-        Object.keys(newState).forEach(function (itemNum) {
-          if (newState[itemNum].itemName === action.fruit.itemName) {
-            newState[itemNum].qty += 1;
-            return newState;
-          } else {
-            action.fruit.qty = 1;
-            newState[Object.keys(newState).length] = action.fruit;
-          }
-        });
-        // newState[Object.keys(newState).length] = action.fruit;
+        newState[action.idx] = action.fruit;
+      } else if (newState[action.idx] !== undefined) {
+        newState[action.idx].qty += 1;
       }
 
       return newState;
@@ -30526,8 +30519,8 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    addFruit: function addFruit(fruit) {
-      return dispatch((0, _cart_action.addFruit)(fruit));
+    addFruit: function addFruit(fruit, idx) {
+      return dispatch((0, _cart_action.addFruit)(fruit, idx));
     }
   };
 };
@@ -30575,7 +30568,8 @@ var FruitStoreItem = function (_React$Component) {
   _createClass(FruitStoreItem, [{
     key: "handleAdd",
     value: function handleAdd(e) {
-      this.props.addFruit(this.props.allFruit[e.target.value]);
+      debugger;
+      this.props.addFruit(this.props.allFruit[e.target.value], e.target.value);
     }
   }, {
     key: "render",
@@ -30703,6 +30697,7 @@ var FruitStore = function (_React$Component) {
   _createClass(FruitStore, [{
     key: 'showCart',
     value: function showCart() {
+      var _this2 = this;
 
       var cart = this.props.cart;
       debugger;
@@ -30729,7 +30724,8 @@ var FruitStore = function (_React$Component) {
               img: cart[id].imgSrc,
               price: cart[id].price,
               qntRemain: cart[id].quantityRemaining,
-              qnt: cart[id].qty
+              qnt: cart[id].qty,
+              updateCart: _this2.updateCart
             });
           })
         );
@@ -30749,8 +30745,13 @@ var FruitStore = function (_React$Component) {
           null,
           'Shopping Cart'
         ),
-        Object.keys(this.props.cart).length,
-        ' items',
+        _react2.default.createElement(
+          'div',
+          { className: 'items' },
+          Object.keys(this.props.cart).length,
+          ' ',
+          Object.keys(this.props.cart).length === 1 ? 'item' : 'items'
+        ),
         this.showCart()
       );
     }
@@ -30814,7 +30815,7 @@ var CartItem = function (_React$Component) {
           _react2.default.createElement("img", { src: img }),
           _react2.default.createElement(
             "span",
-            null,
+            { onClick: this.updateCart },
             "-"
           ),
           _react2.default.createElement(

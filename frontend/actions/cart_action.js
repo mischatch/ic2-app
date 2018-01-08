@@ -5,10 +5,11 @@ export const REMOVE_FRUIT = 'REMOVE_FRUIT';
 export const REMOVE_ALL = 'REMOVE_ALL';
 export const CONFIRM = 'CONFIRM';
 
-export const addFruit = (fruit) => {
+export const addFruit = (fruit, idx) => {
   return {
     type: ADD_FRUIT,
     fruit,
+    idx,
   };
 };
 

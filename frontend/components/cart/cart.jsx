@@ -31,6 +31,7 @@ class FruitStore extends React.Component{
                                         price={cart[id].price}
                                         qntRemain={cart[id].quantityRemaining}
                                         qnt={cart[id].qty}
+                                        updateCart={this.updateCart}
                                         />)}
         </div>
       )
@@ -45,7 +46,7 @@ class FruitStore extends React.Component{
     return (
       <div className="cart">
         <h1>Shopping Cart</h1>
-          {Object.keys(this.props.cart).length} items
+          <div className="items">{Object.keys(this.props.cart).length} {Object.keys(this.props.cart).length === 1  ? 'item' : 'items' }</div>
           { this.showCart() }
       </div>
     )
