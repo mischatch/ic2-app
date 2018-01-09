@@ -14,7 +14,6 @@ class FruitStoreItem extends React.Component{
   }
 
   checkAmount(id){
-    debugger
     if(Object.keys(this.props.cart).lenght === 0 || !this.props.cart[id]){
       return false;
     } else if(this.props.qnt === this.props.cart[id].qty || this.props.qnt === 0){
@@ -25,7 +24,6 @@ class FruitStoreItem extends React.Component{
 
   render(){
     const { id, name, img, price, qnt } = this.props;
-    debugger
     return (
       <div className="store-item">
 

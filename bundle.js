@@ -1493,7 +1493,6 @@ var RECEIVE_ALL_FRUIT = exports.RECEIVE_ALL_FRUIT = 'RECEIVE_ALL_FRUIT';
 var STORE_PURCHASE = exports.STORE_PURCHASE = 'STORE_PURCHASE';
 
 var receiveAllFruit = exports.receiveAllFruit = function receiveAllFruit() {
-  debugger;
   return {
     type: RECEIVE_ALL_FRUIT,
     data: FruitAPIUtil.fetchAllFruit()
@@ -29060,7 +29059,6 @@ var FruitStoreItem = function (_React$Component) {
   }, {
     key: "checkAmount",
     value: function checkAmount(id) {
-      debugger;
       if (Object.keys(this.props.cart).lenght === 0 || !this.props.cart[id]) {
         return false;
       } else if (this.props.qnt === this.props.cart[id].qty || this.props.qnt === 0) {
@@ -29077,7 +29075,6 @@ var FruitStoreItem = function (_React$Component) {
           price = _props.price,
           qnt = _props.qnt;
 
-      debugger;
       return _react2.default.createElement(
         "div",
         { className: "store-item" },

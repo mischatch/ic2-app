@@ -4,7 +4,6 @@ export const RECEIVE_ALL_FRUIT = 'RECEIVE_ALL_FRUIT';
 export const STORE_PURCHASE = 'STORE_PURCHASE';
 
 export const receiveAllFruit = () => {
-    debugger
     return {
     type: RECEIVE_ALL_FRUIT,
     data: FruitAPIUtil.fetchAllFruit(),
