@@ -1788,9 +1788,9 @@ function isPlainObject(value) {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-exports.requestAllFruit = exports.receiveAllFruit = exports.RECEIVE_ALL_FRUIT = undefined;
+exports.requestAllFruit = exports.storePurchase = exports.receiveAllFruit = exports.STORE_PURCHASE = exports.RECEIVE_ALL_FRUIT = undefined;
 
 var _fruit_api_util = __webpack_require__(53);
 
@@ -1799,31 +1799,30 @@ var FruitAPIUtil = _interopRequireWildcard(_fruit_api_util);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var RECEIVE_ALL_FRUIT = exports.RECEIVE_ALL_FRUIT = 'RECEIVE_ALL_FRUIT';
+var STORE_PURCHASE = exports.STORE_PURCHASE = 'STORE_PURCHASE';
 
 var receiveAllFruit = exports.receiveAllFruit = function receiveAllFruit(_ref) {
-    var data = _ref.data;
+  var data = _ref.data;
 
-    return {
-        type: RECEIVE_ALL_FRUIT,
-        data: data
-    };
+  return {
+    type: RECEIVE_ALL_FRUIT,
+    data: data
+  };
 };
 
-// export const receiveOneFruit = oneFruit => ({
-//   type: RECEIVE_ONE_FRUIT,
-//   oneFruit
-// });
-// export const returnOneFruit = oneFruit => ({
-//   type: RECEIVE_ONE_FRUIT,
-//   oneFruit
-// });
+var storePurchase = exports.storePurchase = function storePurchase(cart) {
+  return {
+    type: STORE_PURCHASE,
+    cart: cart
+  };
+};
 
 var requestAllFruit = exports.requestAllFruit = function requestAllFruit() {
-    return function (dispatch) {
-        return FruitAPIUtil.fetchAllFruit().then(function (allFruit) {
-            return dispatch(receiveAllFruit(allFruit));
-        });
-    };
+  return function (dispatch) {
+    return FruitAPIUtil.fetchAllFruit().then(function (allFruit) {
+      return dispatch(receiveAllFruit(allFruit));
+    });
+  };
 };
 
 /***/ }),
@@ -3953,8 +3952,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 var ADD_FRUIT = exports.ADD_FRUIT = 'ADD_FRUIT';
 var REMOVE_ITEM = exports.REMOVE_ITEM = 'REMOVE_FRUIT';
-var REMOVE_ALL = exports.REMOVE_ALL = 'REMOVE_ALL';
-var CONFIRM = exports.CONFIRM = 'CONFIRM';
+var EMPTY_CART = exports.EMPTY_CART = 'EMPTY_CART';
+var PURCHASE = exports.PURCHASE = 'PURCHASE';
 var REMOVE_ONE_FRUIT = exports.REMOVE_ONE_FRUIT = 'REMOVE_ONE_FRUIT';
 
 var addFruit = exports.addFruit = function addFruit(fruit, idx) {
@@ -3979,17 +3978,15 @@ var removeItem = exports.removeItem = function removeItem(idx) {
   };
 };
 
-var removeAll = exports.removeAll = function removeAll(cart) {
+var emptyCart = exports.emptyCart = function emptyCart() {
   return {
-    type: REMOVE_ALL,
-    cart: cart
+    type: EMPTY_CART
   };
 };
 
-var confirm = exports.confirm = function confirm(cart) {
+var purchase = exports.purchase = function purchase() {
   return {
-    type: CONFIRM,
-    fruit: fruit
+    type: PURCHASE
   };
 };
 
@@ -23062,8 +23059,12 @@ var fruitReducer = function fruitReducer() {
         newState[i] = action.data[i];
       }
       return newState;
-    case _fruit_action.RECEIVE_ONE_FRUIT:
-      return state;
+    case _fruit_action.STORE_PURCHASE:
+      newState = (0, _merge2.default)({}, state);
+      for (var item in action.cart) {
+        newState[item].quantityRemaining = newState[item].quantityRemaining - action.cart[item].qty;
+      }
+      return newState;
     default:
       return state;
   }
@@ -26083,6 +26084,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _cart_action = __webpack_require__(75);
 
+var _fruit_action = __webpack_require__(30);
+
 var _merge = __webpack_require__(59);
 
 var _merge2 = _interopRequireDefault(_merge);
@@ -26098,7 +26101,6 @@ var cartReducer = function cartReducer() {
   var idx = action.idx;
   switch (action.type) {
     case _cart_action.ADD_FRUIT:
-      // debugger
       newState = (0, _merge2.default)({}, state);
       if (newState === {} || newState[idx] === undefined) {
         action.fruit.qty = 1;
@@ -26109,17 +26111,26 @@ var cartReducer = function cartReducer() {
 
       return newState;
     case _cart_action.REMOVE_ONE_FRUIT:
-      debugger;
       newState = (0, _merge2.default)({}, state);
       newState[idx].qty -= 1;
       if (newState[idx].qty === 0) {
         delete newState[idx];
       }
       return newState;
+
     case _cart_action.REMOVE_ITEM:
       newState = (0, _merge2.default)({}, state);
       delete newState[idx];
       return newState;
+
+    case _cart_action.EMPTY_CART:
+      newState = {};
+      return newState;
+
+    case _cart_action.PURCHASE:
+      newState = {};
+      return newState;
+
     default:
       return state;
   }
@@ -30488,7 +30499,6 @@ var FruitStore = function (_React$Component) {
     value: function render() {
       var allFruit = this.props.allFruit;
 
-      debugger;
       return _react2.default.createElement(
         'div',
         { className: 'store' },
@@ -30534,7 +30544,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    allFruit: state.allFruit
+    allFruit: state.allFruit,
+    cart: state.cart
   };
 };
 
@@ -30589,8 +30600,18 @@ var FruitStoreItem = function (_React$Component) {
   _createClass(FruitStoreItem, [{
     key: "handleAdd",
     value: function handleAdd(e) {
-      debugger;
+
       this.props.addFruit(this.props.allFruit[e.target.value], e.target.value);
+    }
+  }, {
+    key: "checkAmount",
+    value: function checkAmount(id) {
+      debugger;
+      if (Object.keys(this.props.cart).lenght === 0 || !this.props.cart[id]) {
+        return false;
+      } else if (this.props.qnt === this.props.cart[id].qty || this.props.qnt === 0) {
+        return true;
+      }
     }
   }, {
     key: "render",
@@ -30602,6 +30623,7 @@ var FruitStoreItem = function (_React$Component) {
           price = _props.price,
           qnt = _props.qnt;
 
+      debugger;
       return _react2.default.createElement(
         "div",
         { className: "store-item" },
@@ -30626,7 +30648,7 @@ var FruitStoreItem = function (_React$Component) {
         ),
         _react2.default.createElement(
           "button",
-          { onClick: this.handleAdd, value: id, className: "add" },
+          { onClick: this.handleAdd, disabled: this.props.qnt === 0 ? true : this.checkAmount(id), value: id, className: "add" },
           "Add to Cart"
         )
       );
@@ -30657,11 +30679,12 @@ var _cart2 = _interopRequireDefault(_cart);
 
 var _cart_action = __webpack_require__(75);
 
+var _fruit_action = __webpack_require__(30);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    allFruit: state.allFruit,
     cart: state.cart
   };
 };
@@ -30676,6 +30699,15 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     removeItem: function removeItem(idx) {
       return dispatch((0, _cart_action.removeItem)(idx));
+    },
+    emptyCart: function emptyCart() {
+      return dispatch((0, _cart_action.emptyCart)());
+    },
+    storePurchase: function storePurchase(cart) {
+      return dispatch((0, _fruit_action.storePurchase)(cart));
+    },
+    purchase: function purchase() {
+      return dispatch((0, _cart_action.purchase)());
     }
   };
 };
@@ -30723,6 +30755,8 @@ var FruitStore = function (_React$Component) {
 
     _this.showCart = _this.showCart.bind(_this);
     _this.countTotal = _this.countTotal.bind(_this);
+    _this.handleEmptyCart = _this.handleEmptyCart.bind(_this);
+    _this.handlePurchase = _this.handlePurchase.bind(_this);
     return _this;
   }
 
@@ -30736,27 +30770,36 @@ var FruitStore = function (_React$Component) {
       return total;
     }
   }, {
+    key: 'handleEmptyCart',
+    value: function handleEmptyCart() {
+      this.props.emptyCart();
+    }
+  }, {
+    key: 'handlePurchase',
+    value: function handlePurchase() {
+      this.props.storePurchase(this.props.cart);
+      this.props.purchase();
+    }
+  }, {
     key: 'showCart',
     value: function showCart() {
       var _this2 = this;
 
       var cart = this.props.cart;
-      debugger;
       if (Object.keys(cart).length === 0) {
         return _react2.default.createElement(
           'div',
           null,
           _react2.default.createElement(
             'h3',
-            null,
+            { className: 'empty' },
             'Cart is empty'
           )
         );
       } else {
-        debugger;
         return _react2.default.createElement(
           'div',
-          null,
+          { className: 'cart-master' },
           _react2.default.createElement(
             'div',
             null,
@@ -30775,15 +30818,30 @@ var FruitStore = function (_React$Component) {
               });
             })
           ),
+          _react2.default.createElement('div', { className: 'total-line' }),
           _react2.default.createElement(
             'div',
             { className: 'total' },
             _react2.default.createElement(
               'p',
-              null,
+              { className: 'sum' },
               'Total: $',
               this.countTotal(),
               '.00'
+            ),
+            _react2.default.createElement(
+              'p',
+              { className: 'empty_cart', onClick: this.handleEmptyCart },
+              'Empty Cart'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'button',
+              { className: 'confirm-btn', onClick: this.handlePurchase },
+              'Confirm Purchase'
             )
           )
         );
@@ -30792,9 +30850,6 @@ var FruitStore = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      // const { allFruit } = this.props;
-
-      debugger;
       return _react2.default.createElement(
         'div',
         { className: 'cart' },
@@ -30856,20 +30911,29 @@ var CartItem = function (_React$Component) {
     _this.handleRemove = _this.handleRemove.bind(_this);
     _this.handleAdd = _this.handleAdd.bind(_this);
     _this.handleRemoveItem = _this.handleRemoveItem.bind(_this);
+    _this.checkAmount = _this.checkAmount.bind(_this);
     return _this;
   }
 
   _createClass(CartItem, [{
+    key: "checkAmount",
+    value: function checkAmount(id) {
+      if (this.props.qntRemain === this.props.qty) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
     key: "handleRemove",
     value: function handleRemove() {
-      debugger;
       this.props.removeOneFruit(this.props.id);
     }
   }, {
     key: "handleAdd",
     value: function handleAdd() {
-      debugger;
       this.props.addFruit({}, this.props.id);
+      // this.checkAmount(this.props.id);
     }
   }, {
     key: "handleRemoveItem",
@@ -30886,7 +30950,6 @@ var CartItem = function (_React$Component) {
           price = _props.price,
           id = _props.id;
 
-      debugger;
       return _react2.default.createElement(
         "div",
         { className: "cart_item" },
@@ -30895,7 +30958,7 @@ var CartItem = function (_React$Component) {
           { className: "line_1" },
           _react2.default.createElement("img", { src: img }),
           _react2.default.createElement(
-            "span",
+            "button",
             { onClick: this.handleRemove, value: id },
             "-"
           ),
@@ -30905,8 +30968,8 @@ var CartItem = function (_React$Component) {
             qty
           ),
           _react2.default.createElement(
-            "span",
-            { onClick: this.handleAdd },
+            "button",
+            { disabled: this.checkAmount(id), onClick: this.handleAdd },
             "+"
           )
         ),

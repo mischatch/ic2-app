@@ -9,13 +9,23 @@ class FruitStoreItem extends React.Component{
   }
 
   handleAdd(e){
-    debugger
+
     this.props.addFruit(this.props.allFruit[e.target.value], e.target.value);
+  }
+
+  checkAmount(id){
+    debugger
+    if(Object.keys(this.props.cart).lenght === 0 || !this.props.cart[id]){
+      return false;
+    } else if(this.props.qnt === this.props.cart[id].qty || this.props.qnt === 0){
+      return true;
+    }
   }
 
 
   render(){
     const { id, name, img, price, qnt } = this.props;
+    debugger
     return (
       <div className="store-item">
 
@@ -26,7 +36,7 @@ class FruitStoreItem extends React.Component{
         <span className="price">${Math.round(price)}</span>
         <span className="quantity">{qnt} in Stock</span>
 
-        <button onClick={this.handleAdd} value={id} className="add">Add to Cart</button>
+        <button onClick={this.handleAdd} disabled={this.props.qnt === 0 ? true : this.checkAmount(id)} value={id} className="add">Add to Cart</button>
       </div>
     )
   }

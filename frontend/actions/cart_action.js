@@ -2,8 +2,8 @@
 
 export const ADD_FRUIT = 'ADD_FRUIT';
 export const REMOVE_ITEM = 'REMOVE_FRUIT';
-export const REMOVE_ALL = 'REMOVE_ALL';
-export const CONFIRM = 'CONFIRM';
+export const EMPTY_CART = 'EMPTY_CART';
+export const PURCHASE = 'PURCHASE';
 export const REMOVE_ONE_FRUIT = 'REMOVE_ONE_FRUIT';
 
 export const addFruit = (fruit, idx) => {
@@ -28,16 +28,14 @@ export const removeItem = (idx) => {
   };
 };
 
-export const removeAll = (cart) => {
+export const emptyCart = () => {
   return {
-    type: REMOVE_ALL,
-    cart,
+    type: EMPTY_CART,
   };
 };
 
-export const confirm = (cart) => {
+export const purchase = () => {
   return {
-    type: CONFIRM,
-    fruit,
+    type: PURCHASE,
   };
 };

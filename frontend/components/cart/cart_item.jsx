@@ -7,16 +7,24 @@ class CartItem extends React.Component{
     this.handleRemove = this.handleRemove.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleRemoveItem = this.handleRemoveItem.bind(this);
+    this.checkAmount = this.checkAmount.bind(this);
+  }
+
+  checkAmount(id){
+    if(this.props.qntRemain === this.props.qty){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   handleRemove(){
-    debugger
     this.props.removeOneFruit(this.props.id);
   }
 
   handleAdd(){
-    debugger
     this.props.addFruit({}, this.props.id);
+    // this.checkAmount(this.props.id);
   }
 
   handleRemoveItem(){
@@ -25,12 +33,11 @@ class CartItem extends React.Component{
 
   render(){
     const { name, qty, img, price, id } = this.props;
-    debugger
     return (
       <div className="cart_item">
         <div className="line_1">
           <img src={img} />
-          <span onClick={this.handleRemove} value={id}>-</span><p>{qty}</p><span onClick={this.handleAdd}>+</span>
+          <button onClick={this.handleRemove} value={id}>-</button><p>{qty}</p><button disabled={this.checkAmount(id)} onClick={this.handleAdd}>+</button>
         </div>
         <div className="line_2">
           <p>@ ${Math.round(price)} each = ${qty * Math.round(price)}</p>
