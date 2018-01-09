@@ -1,6 +1,5 @@
 import React from 'react';
 import CartItem from './cart_item';
-// import FruitStoreItem from '../fruit_item/fruit_store_item';
 
 class FruitStore extends React.Component{
   constructor(props){

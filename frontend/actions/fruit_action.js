@@ -16,10 +16,3 @@ export const storePurchase = (cart) => {
     cart,
   };
 };
-
-
-
-// export const requestAllFruit = () => dispatch => {
-//   return FruitAPIUtil.fetchAllFruit()
-//     .then(allFruit => dispatch(receiveAllFruit(allFruit)));
-// };

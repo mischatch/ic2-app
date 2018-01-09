@@ -13,6 +13,7 @@ const cartReducer = (state = {}, action) => {
   let newState;
   const idx = action.idx;
   switch(action.type){
+    
     case ADD_FRUIT:
       newState = merge({}, state);
       if(newState === {} || newState[idx] === undefined){
@@ -33,13 +34,13 @@ const cartReducer = (state = {}, action) => {
 
 
       case REMOVE_ITEM:
-      newState = merge({}, state);
-      delete newState[idx];
-      return newState;
+        newState = merge({}, state);
+        delete newState[idx];
+        return newState;
 
       case EMPTY_CART:
-      newState = {};
-      return newState;
+        newState = {};
+        return newState;
 
       case PURCHASE:
         newState = {};

@@ -1506,11 +1506,6 @@ var storePurchase = exports.storePurchase = function storePurchase(cart) {
   };
 };
 
-// export const requestAllFruit = () => dispatch => {
-//   return FruitAPIUtil.fetchAllFruit()
-//     .then(allFruit => dispatch(receiveAllFruit(allFruit)));
-// };
-
 /***/ }),
 /* 31 */,
 /* 32 */
@@ -22376,19 +22371,21 @@ var fruitReducer = function fruitReducer() {
   Object.freeze(state);
   var newState = void 0;
   switch (action.type) {
+
     case _fruit_action.RECEIVE_ALL_FRUIT:
       newState = (0, _merge2.default)({}, state);
-
       for (var i = 0; i < action.data.length; i++) {
         newState[i] = action.data[i];
       }
       return newState;
+
     case _fruit_action.STORE_PURCHASE:
       newState = (0, _merge2.default)({}, state);
       for (var item in action.cart) {
         newState[item].quantityRemaining = newState[item].quantityRemaining - action.cart[item].qty;
       }
       return newState;
+
     default:
       return state;
   }
@@ -24553,6 +24550,7 @@ var cartReducer = function cartReducer() {
   var newState = void 0;
   var idx = action.idx;
   switch (action.type) {
+
     case _cart_action.ADD_FRUIT:
       newState = (0, _merge2.default)({}, state);
       if (newState === {} || newState[idx] === undefined) {
@@ -29194,8 +29192,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// import FruitStoreItem from '../fruit_item/fruit_store_item';
-
 var FruitStore = function (_React$Component) {
   _inherits(FruitStore, _React$Component);
 
@@ -29384,7 +29380,6 @@ var CartItem = function (_React$Component) {
     key: "handleAdd",
     value: function handleAdd() {
       this.props.addFruit({}, this.props.id);
-      // this.checkAmount(this.props.id);
     }
   }, {
     key: "handleRemoveItem",

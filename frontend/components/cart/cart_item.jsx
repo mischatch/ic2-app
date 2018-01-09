@@ -24,7 +24,6 @@ class CartItem extends React.Component{
 
   handleAdd(){
     this.props.addFruit({}, this.props.id);
-    // this.checkAmount(this.props.id);
   }
 
   handleRemoveItem(){
