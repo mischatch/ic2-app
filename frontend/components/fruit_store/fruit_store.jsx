@@ -8,7 +8,7 @@ class FruitStore extends React.Component{
   }
 
   componentWillMount(){
-    this.props.requestAllFruit();
+    this.props.receiveAllFruit();
   }
 
   render(){
