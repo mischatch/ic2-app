@@ -10,6 +10,7 @@
 * Delete item from cart with one buttons
 * Empty cart
 * **Confirm purchase** button imitates purchase which changes available amount in show items
+* Fetching store products data from .json file
 
 
 ## Store items
